@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"log"
 	"net"
@@ -58,9 +59,11 @@ func listenAndHandleConnection(listenAddr string, targetAddr string, handler con
 }
 
 func main() {
-	listenAddr := "localhost:8080"
-	targetAddr := "httpbin.org:80"
+	listenAddr := flag.String("listen", "localhost:8080", "the address to listen on")
+	targetAddr := flag.String("target", "httpbin.org:80", "the target address")
 
-	listenAndHandleConnection(listenAddr, targetAddr, handleConnection)
+	flag.Parse()
+
+	listenAndHandleConnection(*listenAddr, *targetAddr, handleConnection)
 
 }
